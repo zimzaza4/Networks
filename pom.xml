@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.sefiraat</groupId>
     <artifactId>Networks</artifactId>
-    <version>MODIFIED</version>
+    <version>Build 38 zh-CN(ybw0014) (git 59da6b9)</version>
 
     <distributionManagement>
         <repository>
@@ -129,10 +129,16 @@
             <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>com.github.Slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
             <version>b8f7dc</version>
+            <scope>provided</scope>
+        </dependency-->
+        <dependency>
+            <groupId>com.github.StarWishsama</groupId>
+            <artifactId>Slimefun4</artifactId>
+            <version>1543157e4c</version>
             <scope>provided</scope>
         </dependency>
 
@@ -183,7 +189,7 @@
         <dependency>
             <groupId>net.guizhanss</groupId>
             <artifactId>GuizhanLib</artifactId>
-            <version>0.5.1</version>
+            <version>0.6.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

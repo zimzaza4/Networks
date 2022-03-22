@@ -98,17 +98,7 @@ public class NetworkMemoryShell extends SlimefunItem {
             return;
         }
 
-        NetworkMemoryShellCache cache = CACHES.get(blockMenu.getLocation());
-
-        if (cache == null) {
-            cache = new NetworkMemoryShellCache(card);
-        }
-
-        // There is a viewer, update the stack then remake the cache
-        if (blockMenu.hasViewer()) {
-            cache.refreshMemoryCard();
-            cache = new NetworkMemoryShellCache(card);
-        }
+        final NetworkMemoryShellCache cache = CACHES.getOrDefault(blockMenu.getLocation(), new NetworkMemoryShellCache(card, blockMenu.getLocation()));
 
         // Move items from the input slot into the card
         final ItemStack input = blockMenu.getItemInSlot(INPUT_SLOT);
@@ -131,6 +121,7 @@ public class NetworkMemoryShell extends SlimefunItem {
             blockMenu.pushItem(fetched, OUTPUT_SLOT);
         }
 
+        cache.refreshMemoryCard();
         CACHES.put(blockMenu.getLocation().clone(), cache);
     }
 
@@ -236,11 +227,11 @@ public class NetworkMemoryShell extends SlimefunItem {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT) {
-                    return new int[]{INPUT_SLOT};
-                } else if (flow == ItemTransportFlow.WITHDRAW) {
-                    return new int[]{OUTPUT_SLOT};
-                }
+//                if (flow == ItemTransportFlow.INSERT) {
+//                    return new int[]{INPUT_SLOT};
+//                } else if (flow == ItemTransportFlow.WITHDRAW) {
+//                    return new int[]{OUTPUT_SLOT};
+//                }
                 return new int[0];
             }
         };
@@ -252,7 +243,9 @@ public class NetworkMemoryShell extends SlimefunItem {
 
     protected void preBreak(@Nonnull BlockBreakEvent event) {
         NetworkMemoryShellCache cache = CACHES.remove(event.getBlock().getLocation());
-        cache.refreshMemoryCard();
+        if (cache != null) {
+            cache.refreshMemoryCard();
+        }
     }
 
     protected void onBreak(@Nonnull BlockBreakEvent event) {
